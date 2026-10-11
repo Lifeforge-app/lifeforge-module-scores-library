@@ -3,7 +3,7 @@
   "displayName": "Scores Library",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lifeforge-app/lifeforge-module-scoresLibrary.git"
+    "url": "https://github.com/Lifeforge-app/lifeforge-module-scores-library.git"
   },
   "version": "0.0.1",
   "type": "module",
