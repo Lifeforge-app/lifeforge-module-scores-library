@@ -36,7 +36,7 @@ export const list = forge
     }
   })
   .callback(async ({ db, query: { cookie, page }, response }) => {
-    const parsedPage = parseInt(page ?? '1', 10) || 1
+    const parsedPage = parseInt(page, 10) || 1
 
     const data: {
       data: {
@@ -101,7 +101,11 @@ export const list = forge
       )
 
       if (index !== -1) {
-        finalData.data[index].existed = true
+        const target = finalData.data[index]
+
+        if (target) {
+          target.existed = true
+        }
       }
     }
 

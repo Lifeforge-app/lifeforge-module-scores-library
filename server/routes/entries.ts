@@ -65,8 +65,8 @@ export const sidebarData = forge
       .groupBy(scoreEntries.author)
 
     return response.ok({
-      total: totalRow.value,
-      favourites: favouritesRow.value,
+      total: totalRow?.value ?? 0,
+      favourites: favouritesRow?.value ?? 0,
       types: typeRows,
       authors: Object.fromEntries(authorRows.map(a => [a.name, a.amount]))
     })
@@ -105,7 +105,7 @@ export const list = forge
       query: { page, query = '', category, author, collection, starred, sort },
       response
     }) => {
-      const parsedPage = parseInt(page ?? '1', 10) || 1
+      const parsedPage = parseInt(page, 10) || 1
 
       const perPage = 20
 
@@ -170,7 +170,7 @@ export const list = forge
         .from(scoreEntries)
         .where(where)
 
-      const totalItems = totalRow.value
+      const totalItems = totalRow?.value ?? 0
 
       return response.ok({
         items,
@@ -326,6 +326,10 @@ export const update = forge
       .where(eq(scoreEntries.id, id))
       .returning()
 
+    if (!updated) {
+      return response.notFound()
+    }
+
     return response.ok(updated)
   })
 
@@ -379,6 +383,10 @@ export const toggleFavourite = forge
       .set({ is_favourite: !entry.is_favourite, updated: new Date() })
       .where(eq(scoreEntries.id, id))
       .returning()
+
+    if (!updated) {
+      return response.notFound()
+    }
 
     return response.ok(updated)
   })

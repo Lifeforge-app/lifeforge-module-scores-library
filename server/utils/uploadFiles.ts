@@ -37,7 +37,17 @@ export const processFiles = async (
 ) => {
   for (let groupIdx = 0; groupIdx < Object.keys(groups).length; groupIdx++) {
     try {
-      const group = groups[Object.keys(groups)[groupIdx]]
+      const groupKey = Object.keys(groups)[groupIdx]
+
+      if (!groupKey) {
+        continue
+      }
+
+      const group = groups[groupKey]
+
+      if (!group) {
+        continue
+      }
 
       const file = group.pdf!
 
@@ -95,7 +105,7 @@ export const processFiles = async (
 
           fs.unlinkSync(`medium/${decodedName}.jpg`)
 
-          if (!(tasks.global[taskId].progress instanceof Object)) {
+          if (!(tasks.global[taskId]?.progress instanceof Object)) {
             return
           }
 

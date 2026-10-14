@@ -55,6 +55,10 @@ export const create = forge
       .values(body)
       .returning()
 
+    if (!created) {
+      return response.badRequest('Failed to create score collection')
+    }
+
     return response.created(created)
   })
 
@@ -77,6 +81,10 @@ export const update = forge
       .set(body)
       .where(eq(scoreCollections.id, id))
       .returning()
+
+    if (!updated) {
+      return response.notFound()
+    }
 
     return response.ok(updated)
   })

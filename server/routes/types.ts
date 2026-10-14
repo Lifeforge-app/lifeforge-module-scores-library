@@ -55,6 +55,10 @@ export const create = forge
   .callback(async ({ db, body, response }) => {
     const [created] = await db.insert(scoreTypes).values(body).returning()
 
+    if (!created) {
+      return response.badRequest('Failed to create score type')
+    }
+
     return response.created(created)
   })
 
@@ -77,6 +81,10 @@ export const update = forge
       .set(body)
       .where(eq(scoreTypes.id, id))
       .returning()
+
+    if (!updated) {
+      return response.notFound()
+    }
 
     return response.ok(updated)
   })
